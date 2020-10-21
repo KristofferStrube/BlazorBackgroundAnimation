@@ -1,0 +1,58 @@
+﻿@page "/"
+@using System.Globalization;
+@using DelaunatorNetStd
+
+<svg height="@height" width="@width">
+    @foreach (ColorShape shape in Shapes)
+    {
+        <polygon points="@(String.Join(" ", shape.Points.Select(p => $"{p.X.ToString(CultureInfo.InvariantCulture)},{p.Y.ToString(CultureInfo.InvariantCulture)}")))" fill="@shape.Color" class="@shape.Class" />
+    }
+</svg>
+
+@code {
+    protected List<IPoint> Points = new List<IPoint>();
+    protected List<ColorShape> Shapes = new List<ColorShape>();
+
+    protected int width = 1920;
+    protected int height = 1080;
+
+    protected override async Task OnInitializedAsync()
+    {
+        List<string> colors = new List<string>() { "#007A30", "#00C44E", "#00DB57", "#00A843", "#00913A", "#00B749" };
+        Random random = new Random();
+        for (int i = 0; i < 130; i++)
+        {
+            Points.Add(new Point() { X = random.NextDouble() * width, Y = random.NextDouble() * height });
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            Points.Add(new Point() { X = random.NextDouble() * width, Y = 0 });
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            Points.Add(new Point() { X = random.NextDouble() * width, Y = height });
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            Points.Add(new Point() { X = 0, Y = random.NextDouble() * height });
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            Points.Add(new Point() { X = width, Y = random.NextDouble() * height });
+        }
+        Points.Add(new Point() { X = 0, Y = 0 });
+        Points.Add(new Point() { X = 0, Y = height });
+        Points.Add(new Point() { X = width, Y = 0 });
+        Points.Add(new Point() { X = width, Y = height });
+        var delaunator = new Delaunator(Points.ToArray());
+        Shapes = delaunator.GetTriangles().Select(t => new ColorShape() { Points = t.Points.ToList(), Color = colors[random.Next(colors.Count())], Class = "triangle" }).ToList();
+        //Triangles.AddRange(delaunator.GetVoronoiCells().Select(t => new ColorShape() { Points = t.Points.ToList(), Color = "transparent", Class = "voronoiCell" }).ToList());
+    }
+
+    public class ColorShape
+    {
+        public List<IPoint> Points { get; set; }
+        public string Color { get; set; }
+        public string Class { get; set; }
+    }
+}
