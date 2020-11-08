@@ -52,11 +52,11 @@ a, .btn-link {
 
 .triangle {
     stroke-width: 1;
-    stroke: #006B29;
+    stroke: grey;
 }
 
     .triangle:hover {
-        stroke-width: 3;
+        stroke-width: 2;
         opacity: 0.8;
     }
 
