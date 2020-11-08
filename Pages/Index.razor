@@ -26,7 +26,7 @@
 <svg height="@height" width="@width">
     @foreach (ColorShape shape in Shapes)
     {
-        <polygon points="@(String.Join(" ", shape.Points.Select(p => $"{p.X.ToString(CultureInfo.InvariantCulture)},{p.Y.ToString(CultureInfo.InvariantCulture)}")))" fill="@shape.Color.Value" class="@shape.Class" />
+        <polygon points="@(String.Join(" ", shape.Points.Select(p => $"{p.X.ToString(CultureInfo.InvariantCulture)},{p.Y.ToString(CultureInfo.InvariantCulture)}")))" stroke="@shape.Color.Value" fill="@shape.Color.Value" class="@shape.Class" />
     }
 </svg><br />
 
