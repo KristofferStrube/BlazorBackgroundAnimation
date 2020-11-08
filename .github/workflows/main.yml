@@ -16,7 +16,7 @@ jobs:
 
         # Generate the website
         - name: Publish
-          run: dotnet publish FlipGame.csproj --configuration Release --output build
+          run: dotnet publish BlazorBackgroundAnimation.csproj --configuration Release --output build
 
         # Publish the website
         - name: GitHub Pages action
